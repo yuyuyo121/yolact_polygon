@@ -238,9 +238,6 @@ def prep_display(dets_out, img, h, w, path, undo_transform=True, class_color=Fal
         # If there is no detections, rev_output_mat will return all NaN.
         rev_output_mat = np.empty([1,12],dtype=object)
         rev_output_mat = pd.DataFrame(rev_output_mat)
-        #rev_output_mat = np.zeros([1,11],dtype=object)
-        #output_mat = np.array([NaN, NaN, NaN, NaN, NaN, NaN,NaN, NaN, NaN, NaN, NaN],dtype=object) 
-        #rev_output_mat = output_mat.T
         return img_numpy, rev_output_mat
         
     """From here revised"""
@@ -332,17 +329,6 @@ def prep_display(dets_out, img, h, w, path, undo_transform=True, class_color=Fal
             cys.append(cy)
             
             polygon = max_cnt.squeeze(1) # Need?
-            
-            # max_cnt2 = contours.index(max_cnt)
-            
-            #float_lst = []
-            #for item in polygon:
-            #    print(item)
-            #    print(item[0])
-            #    print(item[1])
-            #    float_lst.append([float(item[0]), float(item[1])])
-            #polygons.append(float_lst) 
-            
             polygons.append(polygon)
     
     cxs = np.array(cxs)
@@ -726,8 +712,6 @@ def evalimage(net:Yolact, path:str, save_path:str=None):
     """
     
     """To save the detected results, folliwng codes were added by Tanaka"""
-    # with open('output/result.txt','a') as f_handle:
-    #     np.savetxt(f_handle, rev_output_mat, delimiter=',', fmt='%s')
     rev_output_mat.to_csv('output/result.txt', mode='a', header=False)
     
     """Until here"""
@@ -1230,9 +1214,6 @@ if __name__ == '__main__':
         
         """To save the detected results, folliwng codes were added by Tanaka"""
         colnames = ['X', 'Y', 'X_len', 'Y_len', 'areaBox', 'class','maskX', 'maskY', 'maskArea', 'maskMaxArea', 'maskArclen', 'polygon']
-        # f_handle = np.loadtxt('output/result.txt', delimiter=',', dtype='object')
-        # result = np.vstack((colnames,f_handle))
-        # np.savetxt('output/result.txt', result, delimiter=',', fmt='%s')
         csv_output = pd.read_csv('output/result.txt', names=colnames)
         csv_output.to_csv('output/result.txt', header=True, index=False)
         """Until here"""
